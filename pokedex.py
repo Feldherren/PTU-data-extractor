@@ -47,8 +47,7 @@ gender_ratio_match = re.compile('Gender Ratio\s*:\s*([\d\.]+%\s*M|No Gender|Gend
 egg_groups_line_match = re.compile('Egg\s*Group\s*:\s*(.*)', flags=re.M|re.I)
 egg_groups_match = re.compile('(Field|Bug|Dragon|Fairy|Flying|Ground|Humanshape|Human\-Like|Indeterminate|Mineral|Monster|Plant|Water 1|Water 2|Water 3|Ditto|None)', flags=re.M|re.I)
 # first match the whole line, then match for diets on that
-# known values: (Omnivore|Nullivore|Carnivore|Herbivore|Phototroph|Terravore)
-# notes: Empoleon misspells omnivore as 'ominvore' and ends the line with a '.' unlike others
+# known values: (Ominvore|Omnivore|Nullivore|Carnivore|Herbivore|Phototroph|Terravore|Filter Feeder|Ergovore)
 diets_line_match = re.compile('Diet\s*:\s*(.*)', flags=re.M|re.I)
 diets_match = re.compile('(Ominvore|Omnivore|Nullivore|Carnivore|Herbivore|Phototroph|Terravore|Filter Feeder|Ergovore)', flags=re.M|re.I)
 # first match the whole line, then match for habitats on that
@@ -176,6 +175,8 @@ for pageNo in range(startPage, endPage):
 			high_ability.append(ability[1].replace('Ôäó', "'"))
 		output[name]['high_ability'] = ', '.join(high_ability)
 		output[name]['egg_groups'] = ', '.join(matched_egg_groups)
+		if matched_average_hatch_rate:
+			output[name]['average_hatch_rate_days'] = matched_average_hatch_rate[0]
 		output[name]['diets'] = ', '.join(matched_diets)
 		output[name]['habitats'] = ', '.join(matched_habitats)
 		output[name]['skills'] = ", ".join(["Athletics: " + matched_athl[0], "Acrobatics: " + matched_acro[0], "Combat: " + matched_combat[0], "Stealth: " + matched_stealth[0], "Perception: " + matched_percep[0], "Focus: " + matched_focus[0]])
