@@ -117,6 +117,8 @@ for pageNo in range(startPage, endPage):
 		matched_height = height_match.findall(pageText)
 		if debug:
 			print(matched_height)
+		height = matched_height[0][0].replace('Ôäó', "'").replace('´¼é', '"').replace(' / ', ', ')
+		height_class = matched_height[0][1]
 		# Weight
 		matched_weight = weight_match.findall(pageText)
 		if debug:
@@ -174,6 +176,8 @@ for pageNo in range(startPage, endPage):
 		for ability in matched_high_ability:
 			high_ability.append(ability[1].replace('Ôäó', "'"))
 		output[name]['high_ability'] = ', '.join(high_ability)
+		output[name]['height'] = height
+		output[name]['height_class'] = height_class
 		output[name]['egg_groups'] = ', '.join(matched_egg_groups)
 		if matched_average_hatch_rate:
 			output[name]['average_hatch_rate_days'] = matched_average_hatch_rate[0]
