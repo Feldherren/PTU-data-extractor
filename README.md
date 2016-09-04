@@ -9,6 +9,10 @@ Swi╦Ø should be Swift
 
 De╦Üant should be Defiant
 
+Con╦Øned should be Confined
+
+Generally doesn't like lower-case Fs
+
 ####Other notes (1.05 Plus)
 
 Empoleon has 'Omnivore' misspelled as 'Ominvore', and has a period following it, unlike most Diet sections.
