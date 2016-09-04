@@ -17,15 +17,15 @@ debug = args.debug
 config = configparser.ConfigParser()
 config.read('config.ini')
 
-skipPages = config['DEFAULT']['pages_to_skip'].split(',')
+skipPages = config['pokedex']['pages_to_skip'].split(',')
 # converting list of strings into list of ints
 # pages in the PDF are indexed from 0 when read by python, rather than 1 as shown in the PDF, so these numbers need to have 1 subtracted
 for x in skipPages:
 	skipPages[skipPages.index(x)] = int(x)-1
 
 # pages start from 0, rather than 1, but so does range(), so these don't need to be altered
-startPage = int(config['DEFAULT']['start_page'])-1
-endPage = int(config['DEFAULT']['end_page'])
+startPage = int(config['pokedex']['start_page'])-1
+endPage = int(config['pokedex']['end_page'])
 
 output = configparser.ConfigParser()
 
@@ -64,7 +64,7 @@ percep_match = re.compile('Percep\s*(\dd6\+*\d*)', flags=re.M|re.I|re.DOTALL)
 focus_match = re.compile('Focus\s*(\dd6\+*\d*)', flags=re.M|re.I|re.DOTALL)
 
 # open the PDF as an object
-pdfFileObject = open(config['DEFAULT']['input'], 'rb')
+pdfFileObject = open(config['pokedex']['input'], 'rb')
 pdfReader = PyPDF2.PdfFileReader(pdfFileObject)
 #print(pdfReader.numPages)
 
@@ -184,5 +184,5 @@ for pageNo in range(startPage, endPage):
 		if debug:
 			print(str(pageNo), 'skipped!')
 
-with open(config['DEFAULT']['output'], 'w', encoding="utf8") as configfile:
+with open(config['pokedex']['output'], 'w', encoding="utf8") as configfile:
 	output.write(configfile)
