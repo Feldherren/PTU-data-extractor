@@ -9,8 +9,6 @@ Swi╦Ø should be Swift (Ability: Swift Swim)
 
 De╦Üant should be Defiant (Ability: Defiant)
 
-Re╦åect should be Reflect
-
 Con╦Üdence should be Confidence (Ability: Confidence)
 
 In╦Ültrator should be Infiltrator (Ability: Infiltrator)
@@ -22,6 +20,14 @@ Justi╦Üed should be Justified (Ability: Justified)
 Gi╦Ø should be Gift (Ability: Flower Gift)
 
 E╦øect should be Effect (Ability: Effect Spore)
+
+Re╦åect should be Reflect (Move: Reflect)
+
+Camou╦åage should be Camouflage (Move: Camouflage)
+
+╦£under should be Thunder. (Moves: Thunderbolt, Thunder, Thunder Wave)
+
+╦£ief should be Thief.
 
 Con╦Øned should be Confined; as this shows up in Hoopa's name, this means Hoopa is not correctly identified as a legendary pokemon.
 
