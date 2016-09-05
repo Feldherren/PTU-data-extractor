@@ -123,6 +123,8 @@ for pageNo in range(startPage, endPage):
 		matched_weight = weight_match.findall(pageText)
 		if debug:
 			print(matched_weight)
+		weight = matched_weight[0][0].replace(' / ', ', ')
+		weight_class = matched_weight[0][1]
 		# Gender Ratio
 		matched_gender_ratio = gender_ratio_match.findall(pageText)
 		if debug:
@@ -178,6 +180,8 @@ for pageNo in range(startPage, endPage):
 		output[name]['high_ability'] = ', '.join(high_ability)
 		output[name]['height'] = height
 		output[name]['height_class'] = height_class
+		output[name]['weight'] = weight
+		output[name]['weight_class'] = weight_class
 		output[name]['egg_groups'] = ', '.join(matched_egg_groups)
 		if matched_average_hatch_rate:
 			output[name]['average_hatch_rate_days'] = matched_average_hatch_rate[0]
