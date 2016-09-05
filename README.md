@@ -29,6 +29,8 @@ Camou╦åage should be Camouflage (Move: Camouflage)
 
 ╦£ief should be Thief.
 
+╦£rash should be Thrash (Move: Thrash)
+
 Con╦Øned should be Confined; as this shows up in Hoopa's name, this means Hoopa is not correctly identified as a legendary pokemon.
 
 Tornadus, Thundurus and Landorus Therian Forme all show up as ╦£Erian Forme; similar to Confined Hoopa, they aren't correctly identified as legendary pokemon. 
