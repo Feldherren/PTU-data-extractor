@@ -74,6 +74,9 @@ level_move_block_match = re.compile('Level Up Move List(.+?)(?:TM/HM Move List|T
 level_move_match = re.compile('((\d+)\s*([\w\s]+)\-\s(Normal|Fighting|Flying|Poison|Ground|Rock|Bug|Ghost|Steel|Fire|Water|Grass|Electric|Psychic|Ice|Dragon|Dark|Fairy))', flags=re.M|re.I)
 tm_hm_move_block_match = re.compile('TM/HM Move List(.+?)(?:Tutor Move List|Egg Move List)', flags=re.M|re.I|re.DOTALL)
 tm_hm_move_match = re.compile('((A?\d+)\s*([\w╦Ø]+(?:\s?\-?[\w╦Ø£]*)*))', flags=re.M|re.I)
+egg_move_block_match = re.compile('Egg Move List(.+?)(?:Tutor Move List)', flags=re.M|re.I|re.DOTALL)
+tutor_move_block_match = re.compile('Tutor Move List(.+)', flags=re.M|re.I|re.DOTALL)
+egg_tutor_move_match = re.compile('([\w╦Ø]+(?:\s?\-?[\w╦Ø£]*)*),?', flags=re.M|re.I)
 
 
 # Pseudo-legendaries, fossils and legendaries; used later to identify pokemon that are in each group
@@ -197,13 +200,29 @@ for pageNo in range(startPage, endPage):
 				print(matched_level_move_block)
 				print(matched_level_moves)
 		# TM/HM Moves
-		matched_tm_hm_move_block = tm_hm_move_block_match.findall(pageText)#.replace('\n', '').replace('\t', '')
+		matched_tm_hm_move_block = tm_hm_move_block_match.findall(pageText)
 		matched_tm_hm_moves = None
 		if matched_tm_hm_move_block:
 			matched_tm_hm_moves = tm_hm_move_match.findall(matched_tm_hm_move_block[0])
 			if debug:
 				print(matched_tm_hm_move_block)
 				print(matched_tm_hm_moves)
+		# Egg Moves
+		matched_egg_move_block = egg_move_block_match.findall(pageText)
+		matched_egg_moves = None
+		if matched_egg_move_block:
+			matched_egg_moves = egg_tutor_move_match.findall(matched_egg_move_block[0])
+			if debug:
+				print(matched_egg_move_block)
+				print(matched_egg_moves)
+		# Tutor Moves
+		matched_tutor_move_block = tutor_move_block_match.findall(pageText)
+		matched_tutor_moves = None
+		if matched_tutor_move_block:
+			matched_tutor_moves = egg_tutor_move_match.findall(matched_tutor_move_block[0])
+			if debug:
+				print(matched_tutor_move_block)
+				print(matched_tutor_moves)
 		
 		# add to output config
 		output[name] = {}
@@ -266,6 +285,18 @@ for pageNo in range(startPage, endPage):
 				output[name]['hm_moves'] = ', '.join(hm_moves)
 			if len(tm_moves) > 0:
 				output[name]['tm_moves'] = ', '.join(tm_moves)
+		if matched_egg_moves:
+			egg_moves = []
+			for move in matched_egg_moves:
+				egg_moves.append(move.strip().replace('\n', '').replace('\t', ''))
+			if len(egg_moves) > 0:
+				output[name]['egg_moves'] = ', '.join(egg_moves)
+		if matched_tutor_moves:
+			tutor_moves = []
+			for move in matched_tutor_moves:
+				tutor_moves.append(move.strip().replace('\n', '').replace('\t', ''))
+			if len(tutor_moves) > 0:
+				output[name]['tutor_moves'] = ', '.join(tutor_moves)
 	else:
 		if debug:
 			print(str(pageNo), 'skipped!')
