@@ -25,6 +25,8 @@ Re╦åect should be Reflect (Move: Reflect)
 
 Camou╦åage should be Camouflage (Move: Camouflage)
 
+O╦ø should be Out (Move: Knock Out)
+
 ╦£under should be Thunder. (Moves: Thunderbolt, Thunder, Thunder Wave)
 
 ╦£ief should be Thief.

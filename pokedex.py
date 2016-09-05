@@ -2,7 +2,6 @@ import argparse
 import configparser
 import re
 import PyPDF2
-import ftfy
 
 # also needs win-unicode-console imported to display unicode characters?
 # dumb extra characters present that will need to be fixed in output: ╦ø£Ø
