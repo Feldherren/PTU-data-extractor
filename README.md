@@ -3,7 +3,7 @@ Python scripts for extracting data from PTU books.
 
 Currently only deals with the Pokedex book, and has issues with certain odd characters showing up at spots. Data is formatted for use with another application of mine; PTU-trainer-generator, also on github. But it's probably easier to convert to whatever format you want than the PDF itself.
 
-####Things it is currently getting wrong (probably due to encoding weirdness)
+####Things it is currently getting wrong (probably some dumb encoding issue, but as of currently I still haven't solved it)
 
 Swi╦Ø should be Swift (Ability: Swift Swim)
 
@@ -18,6 +18,8 @@ In╦Ültrator should be Infiltrator (Ability: Infiltrator)
 Flu╦øy should be Fluffy (Ability: Fluffy Charge)
 
 Justi╦Üed should be Justified (Ability: Justified)
+
+Gi╦Ø should be Gift (Ability: Flower Gift)
 
 E╦øect should be Effect (Ability: Effect Spore)
 
