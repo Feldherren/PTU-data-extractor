@@ -5,7 +5,7 @@ Currently only deals with the Pokedex book, and has issues with certain odd char
 
 ####Things it is currently getting wrong (probably some dumb encoding issue, but as of currently I still haven't solved it)
 
-Swi╦Ø should be Swift (Ability: Swift Swim)
+Swi╦Ø should be Swift (Ability: Swift Swim, Move: Swift)
 
 De╦Üant should be Defiant (Ability: Defiant)
 
