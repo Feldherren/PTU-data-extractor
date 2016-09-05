@@ -9,7 +9,7 @@ Swi╦Ø should be Swift
 
 De╦Üant should be Defiant
 
-Con╦Øned should be Confined
+Con╦Øned should be Confined; as this shows up in Hoopa's name, this means Hoopa is not correctly identified as a legendary pokemon.
 
 Generally doesn't like lower-case Fs
 
