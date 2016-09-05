@@ -72,10 +72,10 @@ focus_match = re.compile('Focus\s*(\dd6\+*\d*)', flags=re.M|re.I|re.DOTALL)
 # again, first get all of the level up moves block, then run another match to extract each move
 level_move_block_match = re.compile('Level Up Move List(.+?)(?:TM/HM Move List|Tutor Move List)', flags=re.M|re.I|re.DOTALL)
 level_move_match = re.compile('((\d+)\s*([\w\s]+)\-\s(Normal|Fighting|Flying|Poison|Ground|Rock|Bug|Ghost|Steel|Fire|Water|Grass|Electric|Psychic|Ice|Dragon|Dark|Fairy))', flags=re.M|re.I)
-tm_hm_move_block_match = re.compile('TM/HM Move List(.+?)(?:Tutor Move List|Egg Move List)', flags=re.M|re.I|re.DOTALL)
+tm_hm_move_block_match = re.compile('TM/HM Move List(.+?)(?:Tutor Move List|Egg Move List|Mega Evolution)', flags=re.M|re.I|re.DOTALL)
 tm_hm_move_match = re.compile('((A?\d+)\s*([\w╦Ø]+(?:\s?\-?[\w╦Ø£]*)*))', flags=re.M|re.I)
-egg_move_block_match = re.compile('Egg Move List(.+?)(?:Tutor Move List)', flags=re.M|re.I|re.DOTALL)
-tutor_move_block_match = re.compile('Tutor Move List(.+)', flags=re.M|re.I|re.DOTALL)
+egg_move_block_match = re.compile('Egg Move List(.+?)(?:Tutor Move List|Mega Evolution|$)', flags=re.I|re.DOTALL)
+tutor_move_block_match = re.compile('Tutor Move List(.+?)(?:Mega Evolution|$)', flags=re.I|re.DOTALL)
 egg_tutor_move_match = re.compile('([\w╦Ø]+(?:\s?\-?[\w╦Ø£]*)*),?', flags=re.M|re.I)
 
 
