@@ -2,13 +2,14 @@ import argparse
 import configparser
 import re
 import PyPDF2
+import ftfy
 
 # also needs win-unicode-console imported to display unicode characters?
 # dumb extra characters present that will need to be fixed in output: ╦ø£Ø
 # will need to add legendary/pseudolegendary/fossil tags later
 
 parser = argparse.ArgumentParser(description='Reads and translate a PTU pokedex PDF into datafile format for PTU-trainer-generator')
-parser.add_argument('-d', '--debug', action='store_true')
+parser.add_argument('-d', '--debug', action='store_true', help='Outputs more detailed information about page text and extracted data.')
 
 args = parser.parse_args()
 
@@ -68,6 +69,9 @@ combat_match = re.compile('Combat\s*(\dd6\+*\d*)', flags=re.M|re.I|re.DOTALL)
 stealth_match = re.compile('Stealth\s*(\dd6\+*\d*)', flags=re.M|re.I|re.DOTALL)
 percep_match = re.compile('Percep\s*(\dd6\+*\d*)', flags=re.M|re.I|re.DOTALL)
 focus_match = re.compile('Focus\s*(\dd6\+*\d*)', flags=re.M|re.I|re.DOTALL)
+# again, first get all of the level up moves block, then run another match to extract each move
+level_move_block_match = re.compile('Level Up Move List\s*(.+)(?:TM/HM Move List|Tutor Move List|\s)', flags=re.M|re.I|re.DOTALL)
+level_move_match = re.compile('((\d+)\s*([\w\s]+)\-\s(Normal|Fighting|Flying|Poison|Ground|Rock|Bug|Ghost|Steel|Fire|Water|Grass|Electric|Psychic|Ice|Dragon|Dark|Fairy))', flags=re.M|re.I)
 
 # Pseudo-legendaries, fossils and legendaries; used later to identify pokemon that are in each group
 pseudolegendary_pokemon = ['Dratini', 'Dragonair', 'Dragonite', 'Larvitar', 'Pupitar', 'Tyranitar', 'Bagon', 'Shelgon', 'Salamence', 'Beldum', 'Metang', 'Metagross', 'Gible', 'Gabite', 'Garchomp', 'Deino', 'Zweilous', 'Hydreigon', 'Goomy', 'Sliggoo', 'Goodra']
@@ -97,7 +101,8 @@ for pageNo in range(startPage, endPage):
 		pageObj = pdfReader.getPage(pageNo)
 		#pageText = pageObj.extractText().encode("utf-8").decode("cp850")
 		# the re.sub here gets rid of hyphenated linebreaks mid-word
-		pageText = re.sub('\n-', '', pageObj.extractText().encode("utf-8").decode("cp850"))
+		#pageText = ftfy.fix_text(re.sub('\n-', '', pageObj.extractText())) # turns special ' and " markers into 'TM' and other stuff, not really working
+		pageText = re.sub('\n-', '', pageObj.extractText().encode('utf-8').decode("cp850"))
 		if debug:
 			print(pageText)
 		# Name
@@ -179,9 +184,17 @@ for pageNo in range(startPage, endPage):
 		matched_focus = focus_match.findall(pageText)
 		if debug:
 			print(matched_athl, matched_acro, matched_combat, matched_stealth, matched_percep, matched_focus)
+		# Moves
+		# Level Up Moves
+		matched_move_block = level_move_block_match.findall(pageText)
+		if matched_move_block:
+			matched_level_moves = level_move_match.findall(matched_move_block[0])
+			if debug:
+				print(matched_level_moves)
 		
 		# add to output config
 		output[name] = {}
+		output[name]['page'] = str(pageNo+1)
 		if name in fossil_pokemon:
 			output[name]['fossil'] = "True"
 		else:
@@ -194,7 +207,6 @@ for pageNo in range(startPage, endPage):
 			output[name]['legendary'] = "True"
 		else:
 			output[name]['legendary'] = "False"
-		output[name]['page'] = str(pageNo+1)
 		output[name]['base_hp'] = base_hp
 		output[name]['base_attack'] = base_attack
 		output[name]['base_defense'] = base_defense
@@ -224,6 +236,11 @@ for pageNo in range(startPage, endPage):
 		output[name]['diets'] = ', '.join(matched_diets)
 		output[name]['habitats'] = ', '.join(matched_habitats)
 		output[name]['skills'] = ", ".join(["Athletics: " + matched_athl[0], "Acrobatics: " + matched_acro[0], "Combat: " + matched_combat[0], "Stealth: " + matched_stealth[0], "Perception: " + matched_percep[0], "Focus: " + matched_focus[0]])
+		if matched_level_moves:
+			level_moves = []
+			for move in matched_level_moves:
+				level_moves.append(move[1].strip() + ':' + move[2].strip())
+			output[name]['level_moves'] = ', '.join(level_moves)
 	else:
 		if debug:
 			print(str(pageNo), 'skipped!')
