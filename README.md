@@ -21,4 +21,6 @@ Pancham and a few others have 'Human-Like', instead of 'Humanshape' I assume, fo
 
 Earlier Pokemon with no gender have 'No Gender' in Gender Ratio. More-recent legendaries have 'Genderless' instead, but I think they're supposed to be the same.
 
-Meloetta has the Advanced Ability 'Spining Dance'; should be 'Spinning Dance'.
+Meloetta Aria 'Form', rather than Forme.
+
+Meloetta Step Forme has the Advanced Ability 'Spining Dance'; should be 'Spinning Dance'. Also, the name is printed as Form, where it should be Forme.
