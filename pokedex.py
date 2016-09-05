@@ -69,6 +69,11 @@ stealth_match = re.compile('Stealth\s*(\dd6\+*\d*)', flags=re.M|re.I|re.DOTALL)
 percep_match = re.compile('Percep\s*(\dd6\+*\d*)', flags=re.M|re.I|re.DOTALL)
 focus_match = re.compile('Focus\s*(\dd6\+*\d*)', flags=re.M|re.I|re.DOTALL)
 
+# Pseudo-legendaries, fossils and legendaries; used later to identify pokemon that are in each group
+pseudolegendary_pokemon = ['Dratini', 'Dragonair', 'Dragonite', 'Larvitar', 'Pupitar', 'Tyranitar', 'Bagon', 'Shelgon', 'Salamence', 'Beldum', 'Metang', 'Metagross', 'Gible', 'Gabite', 'Garchomp', 'Deino', 'Zweilous', 'Hydreigon', 'Goomy', 'Sliggoo', 'Goodra']
+fossil_pokemon = ['Omanyte', 'Omastar', 'Kabuto', 'Kabutops', 'Lileep', 'Cradily', 'Anorith', 'Armaldo', 'Cranidos', 'Rampardos', 'Shieldon', 'Bastiodon', 'Tirtouga', 'Carracosta', 'Archen', 'Archeops', 'Tyrunt', 'Tyrantrum', 'Amaura', 'Aurorus', 'Aerodactyl']
+legendary_pokemon = ['Mew', 'Mewtwo', 'Genesect', 'Heatran', 'Articuno', 'Zapdos', 'Moltres', 'Raikou', 'Entei', 'Suicune', 'Regirock', 'Regice', 'Registeel', 'Regigigas', 'Cobalion', 'Terrakion', 'Virizion', 'Keldeo', 'Uxie', 'Mesprit', 'Azelf', 'Tornadus Incarnate Forme', 'Tornadus Therian Forme', 'Thundurus Incarnate Forme', 'Thundurus Therian Forme', 'Landorus Incarnate Forme', 'Landorus Therian Forme', 'Lugia', 'Ho-Oh', 'Latias', 'Latios', 'Phione', 'Manaphy', 'Celebi', 'Jirachi', 'Victini', 'Shaymin Land Forme', 'Shaymin Sky Forme', 'Diancie', 'Meloetta Aria Form', 'Meloetta Step Form', 'Deoxys Normal Forme', 'Deoxys Attack Forme', 'Deoxys Defense Forme', 'Deoxys Speed Forme', 'Darkrai', 'Cresselia', 'Kyogre', 'Groudon', 'Rayquaza', 'Reshiram', 'Zekrom', 'Kyurem', 'Kyurem Zekrom Fusion Forme', 'Kyurem Reshiram Fusion Forme', 'Dialga', 'Palkia', 'Giratina Origin Forme', 'Giratina Altered Forme', 'Xerneas', 'Yveltal', 'Zygarde', 'Arceus', 'Hoopa Confined', 'Hoopa Unbound']
+
 # open the PDF as an object
 pdfFileObject = open(config['pokedex']['input'], 'rb')
 pdfReader = PyPDF2.PdfFileReader(pdfFileObject)
@@ -177,6 +182,18 @@ for pageNo in range(startPage, endPage):
 		
 		# add to output config
 		output[name] = {}
+		if name in fossil_pokemon:
+			output[name]['fossil'] = "True"
+		else:
+			output[name]['fossil'] = "False"
+		if name in pseudolegendary_pokemon:
+			output[name]['pseudolegendary'] = "True"
+		else:
+			output[name]['pseudolegendary'] = "False"
+		if name in legendary_pokemon:
+			output[name]['legendary'] = "True"
+		else:
+			output[name]['legendary'] = "False"
 		output[name]['page'] = str(pageNo+1)
 		output[name]['base_hp'] = base_hp
 		output[name]['base_attack'] = base_attack
