@@ -76,7 +76,9 @@ tm_hm_move_block_match = re.compile('TM/HM Move List(.+?)(?:Tutor Move List|Egg 
 tm_hm_move_match = re.compile('((A?\d+)\s*([\w╦Ø]+(?:\s?\-?[\w╦Ø£]*)*))', flags=re.M|re.I)
 egg_move_block_match = re.compile('Egg Move List(.+?)(?:Tutor Move List|Mega Evolution|$)', flags=re.I|re.DOTALL)
 tutor_move_block_match = re.compile('Tutor Move List(.+?)(?:Mega Evolution|$)', flags=re.I|re.DOTALL)
-egg_tutor_move_match = re.compile('([\w╦Ø]+(?:\s?\-?[\w╦Ø£]*)*),?', flags=re.M|re.I)
+#tutor_move_match = re.compile('([\w╦Ø]+(?:\s?\-?[\w╦Ø£]*)*(?:\(N\))?),?', flags=re.M|re.I)
+tutor_move_match = re.compile('([\w╦Ø]+(?:\s?\-?[\w╦Ø£]*)*\(?N?\)?),?', flags=re.M|re.I)
+egg_move_match = re.compile('([\w╦Ø]+(?:\s?\-?[\w╦Ø£]*)*),?', flags=re.M|re.I)
 
 
 # Pseudo-legendaries, fossils and legendaries; used later to identify pokemon that are in each group
@@ -211,7 +213,7 @@ for pageNo in range(startPage, endPage):
 		matched_egg_move_block = egg_move_block_match.findall(pageText)
 		matched_egg_moves = None
 		if matched_egg_move_block:
-			matched_egg_moves = egg_tutor_move_match.findall(matched_egg_move_block[0])
+			matched_egg_moves = egg_move_match.findall(matched_egg_move_block[0])
 			if debug:
 				print(matched_egg_move_block)
 				print(matched_egg_moves)
@@ -219,7 +221,7 @@ for pageNo in range(startPage, endPage):
 		matched_tutor_move_block = tutor_move_block_match.findall(pageText)
 		matched_tutor_moves = None
 		if matched_tutor_move_block:
-			matched_tutor_moves = egg_tutor_move_match.findall(matched_tutor_move_block[0])
+			matched_tutor_moves = tutor_move_match.findall(matched_tutor_move_block[0])
 			if debug:
 				print(matched_tutor_move_block)
 				print(matched_tutor_moves)
