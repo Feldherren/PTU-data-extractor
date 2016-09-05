@@ -70,8 +70,11 @@ stealth_match = re.compile('Stealth\s*(\dd6\+*\d*)', flags=re.M|re.I|re.DOTALL)
 percep_match = re.compile('Percep\s*(\dd6\+*\d*)', flags=re.M|re.I|re.DOTALL)
 focus_match = re.compile('Focus\s*(\dd6\+*\d*)', flags=re.M|re.I|re.DOTALL)
 # again, first get all of the level up moves block, then run another match to extract each move
-level_move_block_match = re.compile('Level Up Move List\s*(.+)(?:TM/HM Move List|Tutor Move List|\s)', flags=re.M|re.I|re.DOTALL)
+level_move_block_match = re.compile('Level Up Move List(.+?)(?:TM/HM Move List|Tutor Move List)', flags=re.M|re.I|re.DOTALL)
 level_move_match = re.compile('((\d+)\s*([\w\s]+)\-\s(Normal|Fighting|Flying|Poison|Ground|Rock|Bug|Ghost|Steel|Fire|Water|Grass|Electric|Psychic|Ice|Dragon|Dark|Fairy))', flags=re.M|re.I)
+tm_hm_move_block_match = re.compile('TM/HM Move List(.+?)(?:Tutor Move List|Egg Move List)', flags=re.M|re.I|re.DOTALL)
+tm_hm_move_match = re.compile('((A?\d+)\s*([\w╦Ø]+(?:\s?\-?[\w╦Ø£]*)*))', flags=re.M|re.I)
+
 
 # Pseudo-legendaries, fossils and legendaries; used later to identify pokemon that are in each group
 pseudolegendary_pokemon = ['Dratini', 'Dragonair', 'Dragonite', 'Larvitar', 'Pupitar', 'Tyranitar', 'Bagon', 'Shelgon', 'Salamence', 'Beldum', 'Metang', 'Metagross', 'Gible', 'Gabite', 'Garchomp', 'Deino', 'Zweilous', 'Hydreigon', 'Goomy', 'Sliggoo', 'Goodra']
@@ -186,11 +189,21 @@ for pageNo in range(startPage, endPage):
 			print(matched_athl, matched_acro, matched_combat, matched_stealth, matched_percep, matched_focus)
 		# Moves
 		# Level Up Moves
-		matched_move_block = level_move_block_match.findall(pageText)
-		if matched_move_block:
-			matched_level_moves = level_move_match.findall(matched_move_block[0])
+		matched_level_move_block = level_move_block_match.findall(pageText)
+		matched_level_moves = None
+		if matched_level_move_block:
+			matched_level_moves = level_move_match.findall(matched_level_move_block[0])
 			if debug:
+				print(matched_level_move_block)
 				print(matched_level_moves)
+		# TM/HM Moves
+		matched_tm_hm_move_block = tm_hm_move_block_match.findall(pageText)#.replace('\n', '').replace('\t', '')
+		matched_tm_hm_moves = None
+		if matched_tm_hm_move_block:
+			matched_tm_hm_moves = tm_hm_move_match.findall(matched_tm_hm_move_block[0])
+			if debug:
+				print(matched_tm_hm_move_block)
+				print(matched_tm_hm_moves)
 		
 		# add to output config
 		output[name] = {}
@@ -241,6 +254,18 @@ for pageNo in range(startPage, endPage):
 			for move in matched_level_moves:
 				level_moves.append(move[1].strip() + ':' + move[2].strip())
 			output[name]['level_moves'] = ', '.join(level_moves)
+		if matched_tm_hm_moves:
+			tm_moves = []
+			hm_moves = []
+			for move in matched_tm_hm_moves:
+				if move[1][:1] == 'A':
+					hm_moves.append(move[2].strip().replace('\n', '').replace('\t', ''))
+				else:
+					tm_moves.append(move[2].strip().replace('\n', '').replace('\t', ''))
+			if len(hm_moves) > 0:
+				output[name]['hm_moves'] = ', '.join(hm_moves)
+			if len(tm_moves) > 0:
+				output[name]['tm_moves'] = ', '.join(tm_moves)
 	else:
 		if debug:
 			print(str(pageNo), 'skipped!')
