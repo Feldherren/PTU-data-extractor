@@ -31,6 +31,12 @@ output = configparser.ConfigParser()
 
 # setting up regexes
 name_match = re.compile('^\d+([\w ╦ø£\-\(\)]+)$', flags=re.M|re.I)
+hp_match = re.compile('HP:\s*(\d+)', flags=re.M|re.I)
+attack_match = re.compile('Attack:\s*(\d+)', flags=re.M|re.I)
+defense_match = re.compile('Defense:\s*(\d+)', flags=re.M|re.I)
+special_attack_match = re.compile('Special Attack:\s*(\d+)', flags=re.M|re.I)
+special_defense_match = re.compile('Special Defense:\s*(\d+)', flags=re.M|re.I)
+speed_match = re.compile('Speed:\s*(\d+)', flags=re.M|re.I)
 # first match the whole line, then match for types on that
 type_line_match = re.compile('(Type\s*:\s*\w+\s*/*\s*\w*)\s*$', flags=re.M|re.I)
 type_match = re.compile('(Normal|Fighting|Flying|Poison|Ground|Rock|Bug|Ghost|Steel|Fire|Water|Grass|Electric|Psychic|Ice|Dragon|Dark|Fairy)', flags=re.M|re.I)
@@ -93,6 +99,13 @@ for pageNo in range(startPage, endPage):
 		name = ' '.join(name_match.findall(pageText)[0].title().split())
 		if debug:
 			print(name)
+		# Base stats
+		base_hp = hp_match.findall(pageText)[0]
+		base_attack = attack_match.findall(pageText)[0]
+		base_defense = defense_match.findall(pageText)[0]
+		base_special_attack = special_attack_match.findall(pageText)[0]
+		base_special_defense = special_defense_match.findall(pageText)[0]
+		base_speed = speed_match.findall(pageText)[0]
 		# Types
 		type_line = type_line_match.findall(pageText)[0]
 		matched_types = type_match.findall(type_line)
@@ -165,6 +178,12 @@ for pageNo in range(startPage, endPage):
 		# add to output config
 		output[name] = {}
 		output[name]['page'] = str(pageNo+1)
+		output[name]['base_hp'] = base_hp
+		output[name]['base_attack'] = base_attack
+		output[name]['base_defense'] = base_defense
+		output[name]['base_special_attack'] = base_special_attack
+		output[name]['base_special_defense'] = base_special_defense
+		output[name]['base_speed'] = base_speed
 		output[name]['types'] = ', '.join(matched_types)
 		basic_abilities = []
 		for ability in matched_basic_abilities:
