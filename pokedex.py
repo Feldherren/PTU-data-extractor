@@ -77,8 +77,7 @@ egg_move_block_match = re.compile(r'Egg Move List(.+?)(?:Tutor Move List|Mega Ev
 tutor_move_block_match = re.compile(r'Tutor Move List(.+?)(?:Mega Evolution|$|\*)', flags=re.I|re.DOTALL)
 tutor_move_match = re.compile(r'([\w╦Ø]+(?:\s?\-?[\w╦Ø£]*)*\(?N?\)?),?', flags=re.M|re.I)
 egg_move_match = re.compile(r'([\w╦Ø]+(?:\s?\-?[\w╦Ø£]*)*),?', flags=re.M|re.I)
-evolutions_match = re.compile(r'\s*(\d+)\s\-\s(\w+\s?[FM]?)\b\s?(Fire Stone|Water Stone|Thunderstone|Leaf Stone|Shiny Stone|Dawn Stone|Dusk Stone|Moon Stone)?\s?(?:holding ([\w\W]+?))?\s?(Male|Female)?\s?(?:Minimum (\d+))?(?:learn (\w+\s?\w*))?\s?(in \w+\s?\w*)?$', flags=re.M|re.I)
-#evolutions_match = re.compile(r'\s*(\d+)\s\-\s(\w+\s?[FM]?)\b\s?(Fire Stone|Water Stone|Thunderstone|Leaf Stone|Shiny Stone|Dawn Stone|Dusk Stone|Moon Stone)?', flags=re.M|re.I)
+evolutions_match = re.compile(r'\s*(\d+)\s\-\s(\w+\s?[FM]?)\b\s*(Fire Stone|Water Stone|Thunderstone|Leaf Stone|Shiny Stone|Dawn Stone|Dusk Stone|Moon Stone)?\s*(Superior Attack|Superior Defense|Equal Attack and Defense)?\s*(?:holding ([\w\W]+?))?,*\s*(?:Interact (?:wiht|with)\s?a?,* (Shelmet|Karrablast|Remoraid))?,*\s*(Male|Female)?\s*(?:(?:Minimum|Min\.) (\d+))?\s*(Male|Female)?\s*(?:learn (\w+\s?\w*))?\s*(in \w+\s?\w*)?\s*(?:at (Night))?\s*(Splits from Nincada)?$', flags=re.M|re.I)
 
 # Pseudo-legendaries, fossils and legendaries; used later to identify pokemon that are in each group
 pseudolegendary_pokemon = ['Dratini', 'Dragonair', 'Dragonite', 'Larvitar', 'Pupitar', 'Tyranitar', 'Bagon', 'Shelgon', 'Salamence', 'Beldum', 'Metang', 'Metagross', 'Gible', 'Gabite', 'Garchomp', 'Deino', 'Zweilous', 'Hydreigon', 'Goomy', 'Sliggoo', 'Goodra']
@@ -217,13 +216,6 @@ for pageNo in range(startPage, endPage):
 		if debug:
 			for evolution in matched_evolutions:
 				print(evolution)
-		# 0: evolutionary tier/stage (eg. 1 for base form, 2 for forms evolving from that, 3 for forms evolving from stage 2 forms)
-		# 1: Name of stage
-		# 2: Evolution stone, if required
-		# 3: Hold item, if required
-		# 4: Gender, if required
-		# 5: Minimum level for evolution, if required
-		# 6: Learned move, if required
 		
 		# add to output config
 		output[name] = {}
@@ -298,6 +290,19 @@ for pageNo in range(startPage, endPage):
 				tutor_moves.append(move.strip().replace('\n', '').replace('\t', ''))
 			if len(tutor_moves) > 0:
 				output[name]['tutor_moves'] = ', '.join(tutor_moves)
+		# Evolution result indexes:
+		# 00: Evolutionary tier/stage (eg. 1 for base form, 2 for forms evolving from that, 3 for forms evolving from stage 2 forms)
+		# 01: Name of stage
+		# 02: Attack/Defense/Equal split from Tyrogue
+		# 03: Evolution stone, if required
+		# 04: Hold item, if required
+		# 05: Interact with other pokemon, if required
+		# 05: Gender, if required (Gallade)
+		# 06: Minimum level for evolution, if required
+		# 07: Gender, if required (Vespiquen)
+		# 08: Learned move, if required
+		# 09: Weather
+		# 10: Night, if required
 		family = []
 		for evolution in matched_evolutions:
 			family.append(evolution[1].strip())

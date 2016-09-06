@@ -57,4 +57,8 @@ Rhydon has the evolution to Rhyperior requiring a minimum level 50. Rhyhorn and 
 
 Machop has the evolution to Machamp requiring a minimum level 35. Rhyhorn and Rhyperior show the minimum as 40.
 
-Gurdurr is missing a linebreak in evolution section, and seems to claim that it needs a minimum level 250 to evolve to Conkeldurr
+Gurdurr is missing a linebreak in evolution section, and seems to claim that it needs a minimum level 250 to evolve to Conkeldurr; this means Gurdurr does not list Conkeldurr as an evolution, whilst Timburr and Conkeldurr do.
+
+Combee and Vespiquen have the gender requirement for evolution to Vespiquen specified after the minimum level. Ralts, Kirlia and Gallade have the gender requirement specified before the minimum level.
+
+Mantyke and Mantine misspell 'with' as 'wiht' in the evolution section, and uses commas to separate information. Also use 'Min.' instead of 'Minimum'
