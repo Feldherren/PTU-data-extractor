@@ -75,31 +75,19 @@ tm_hm_move_block_match = re.compile('TM/HM Move List(.+?)(?:Tutor Move List|Egg 
 tm_hm_move_match = re.compile('((A?\d+)\s*([\w╦Ø]+(?:\s?\-?[\w╦Ø£]*)*))', flags=re.M|re.I)
 egg_move_block_match = re.compile('Egg Move List(.+?)(?:Tutor Move List|Mega Evolution|$)', flags=re.I|re.DOTALL)
 tutor_move_block_match = re.compile('Tutor Move List(.+?)(?:Mega Evolution|$)', flags=re.I|re.DOTALL)
-#tutor_move_match = re.compile('([\w╦Ø]+(?:\s?\-?[\w╦Ø£]*)*(?:\(N\))?),?', flags=re.M|re.I)
 tutor_move_match = re.compile('([\w╦Ø]+(?:\s?\-?[\w╦Ø£]*)*\(?N?\)?),?', flags=re.M|re.I)
 egg_move_match = re.compile('([\w╦Ø]+(?:\s?\-?[\w╦Ø£]*)*),?', flags=re.M|re.I)
-
+evolutions_match = re.compile('(\d+)\s\-\s(\w+\s?[FM]?\b)\s?(Fire Stone|Water Stone|Thunderstone|Leaf Stone|Shiny Stone|Dawn Stone|Dusk Stone|Moon Stone)?\s?(?:holding ([\w\W]+?))?\s?(Male|Female)?\s?(?:Minimum (\d+))?(?:learn (\w+\s?\w*))?$', flags=re.M|re.I)
 
 # Pseudo-legendaries, fossils and legendaries; used later to identify pokemon that are in each group
 pseudolegendary_pokemon = ['Dratini', 'Dragonair', 'Dragonite', 'Larvitar', 'Pupitar', 'Tyranitar', 'Bagon', 'Shelgon', 'Salamence', 'Beldum', 'Metang', 'Metagross', 'Gible', 'Gabite', 'Garchomp', 'Deino', 'Zweilous', 'Hydreigon', 'Goomy', 'Sliggoo', 'Goodra']
 fossil_pokemon = ['Omanyte', 'Omastar', 'Kabuto', 'Kabutops', 'Lileep', 'Cradily', 'Anorith', 'Armaldo', 'Cranidos', 'Rampardos', 'Shieldon', 'Bastiodon', 'Tirtouga', 'Carracosta', 'Archen', 'Archeops', 'Tyrunt', 'Tyrantrum', 'Amaura', 'Aurorus', 'Aerodactyl']
-legendary_pokemon = ['Mew', 'Mewtwo', 'Genesect', 'Heatran', 'Articuno', 'Zapdos', 'Moltres', 'Raikou', 'Entei', 'Suicune', 'Regirock', 'Regice', 'Registeel', 'Regigigas', 'Cobalion', 'Terrakion', 'Virizion', 'Keldeo', 'Uxie', 'Mesprit', 'Azelf', 'Tornadus Incarnate Forme', 'Tornadus Therian Forme', 'Thundurus Incarnate Forme', 'Thundurus Therian Forme', 'Landorus Incarnate Forme', 'Landorus Therian Forme', 'Lugia', 'Ho-Oh', 'Latias', 'Latios', 'Phione', 'Manaphy', 'Celebi', 'Jirachi', 'Victini', 'Shaymin Land Forme', 'Shaymin Sky Forme', 'Diancie', 'Meloetta Aria Form', 'Meloetta Step Form', 'Deoxys Normal Forme', 'Deoxys Attack Forme', 'Deoxys Defense Forme', 'Deoxys Speed Forme', 'Darkrai', 'Cresselia', 'Kyogre', 'Groudon', 'Rayquaza', 'Reshiram', 'Zekrom', 'Kyurem', 'Kyurem Zekrom Fusion Forme', 'Kyurem Reshiram Fusion Forme', 'Dialga', 'Palkia', 'Giratina Origin Forme', 'Giratina Altered Forme', 'Xerneas', 'Yveltal', 'Zygarde', 'Arceus', 'Hoopa Confined', 'Hoopa Unbound']
+# has an extra entry for Meloetta Step/Aria 'Form', rather than 'Forme', as it's misspelled in 1.05 plus
+legendary_pokemon = ['Mew', 'Mewtwo', 'Genesect', 'Heatran', 'Articuno', 'Zapdos', 'Moltres', 'Raikou', 'Entei', 'Suicune', 'Regirock', 'Regice', 'Registeel', 'Regigigas', 'Cobalion', 'Terrakion', 'Virizion', 'Keldeo', 'Uxie', 'Mesprit', 'Azelf', 'Tornadus Incarnate Forme', 'Tornadus Therian Forme', 'Thundurus Incarnate Forme', 'Thundurus Therian Forme', 'Landorus Incarnate Forme', 'Landorus Therian Forme', 'Lugia', 'Ho-Oh', 'Latias', 'Latios', 'Phione', 'Manaphy', 'Celebi', 'Jirachi', 'Victini', 'Shaymin Land Forme', 'Shaymin Sky Forme', 'Diancie', 'Meloetta Aria Form', 'Meloetta Step Form', 'Meloetta Aria Forme', 'Meloetta Step Forme', 'Deoxys Normal Forme', 'Deoxys Attack Forme', 'Deoxys Defense Forme', 'Deoxys Speed Forme', 'Darkrai', 'Cresselia', 'Kyogre', 'Groudon', 'Rayquaza', 'Reshiram', 'Zekrom', 'Kyurem', 'Kyurem Zekrom Fusion Forme', 'Kyurem Reshiram Fusion Forme', 'Dialga', 'Palkia', 'Giratina Origin Forme', 'Giratina Altered Forme', 'Xerneas', 'Yveltal', 'Zygarde', 'Arceus', 'Hoopa Confined', 'Hoopa Unbound']
 
 # open the PDF as an object
 pdfFileObject = open(config['pokedex']['input'], 'rb')
 pdfReader = PyPDF2.PdfFileReader(pdfFileObject)
-#print(pdfReader.numPages)
-
-# pageObj = pdfReader.getPage(startPage)
-# pageText = pageObj.extractText().encode("utf-8")
-# # utf-32 is unreadable
-# # utf-8 is mostly readable but has some undisplayed characters
-# # ...because the console wouldn't display them
-# decodeText = pageText.decode("cp850")
-# #pageText = pageText.replace("˚", "")
-# #pageText = pageText.replace("’", "'")
-# #pageText = pageText.replace('”', '"')
-# print(decodeText)
 
 for pageNo in range(startPage, endPage):
 	if debug:
@@ -108,7 +96,6 @@ for pageNo in range(startPage, endPage):
 		pageObj = pdfReader.getPage(pageNo)
 		#pageText = pageObj.extractText().encode("utf-8").decode("cp850")
 		# the re.sub here gets rid of hyphenated linebreaks mid-word
-		#pageText = ftfy.fix_text(re.sub('\n-', '', pageObj.extractText())) # turns special ' and " markers into 'TM' and other stuff, not really working
 		pageText = re.sub('\n-', '', pageObj.extractText().encode('utf-8').decode("cp850"))
 		if debug:
 			print(pageText)
