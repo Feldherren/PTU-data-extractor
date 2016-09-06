@@ -41,6 +41,8 @@ Tornadus, Thundurus and Landorus Therian Forme all show up as ╦£Erian Forme; 
 
 Generally doesn't like lower-case Fs. Or F-sounds, even. Most of the issues seem to contain the ╦ character, though, so they should be easy to find.
 
+Wormadam (Plant Cloak Form) doesn't pick up the 'Plant Cloak Form' part of its name; there's more spacing between the species name and the form than the other two (Sand, Trash), and I haven't yet got it to pick up that section.
+
 ####Other notes (1.05 Plus)
 
 Empoleon has 'Omnivore' misspelled as 'Ominvore', and has a period following it, unlike most Diet sections.

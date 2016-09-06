@@ -31,6 +31,7 @@ output = configparser.ConfigParser()
 
 # setting up regexes
 name_match = re.compile(r'^\d+([\w ╦ø£\-\(\)]+)$', flags=re.M|re.I)
+#name_match = re.compile(r'^\d+\s*\n?\s*([\w ╦ø£\-\(\)]+)$', flags=re.M|re.I) # attempting to get this to pick up Wormadam's Grass Cloak Form name, instead of just Wormadam
 hp_match = re.compile(r'HP:\s*(\d+)', flags=re.M|re.I)
 attack_match = re.compile(r'Attack:\s*(\d+)', flags=re.M|re.I)
 defense_match = re.compile(r'Defense:\s*(\d+)', flags=re.M|re.I)
@@ -297,12 +298,13 @@ for pageNo in range(startPage, endPage):
 		# 03: Evolution stone, if required
 		# 04: Hold item, if required
 		# 05: Interact with other pokemon, if required
-		# 05: Gender, if required (Gallade)
-		# 06: Minimum level for evolution, if required
-		# 07: Gender, if required (Vespiquen)
-		# 08: Learned move, if required
-		# 09: Weather
-		# 10: Night, if required
+		# 06: Gender, if required (Gallade)
+		# 07: Minimum level for evolution, if required
+		# 08: Gender, if required (Vespiquen)
+		# 09: Learned move, if required
+		# 10: Weather
+		# 11: Night, if required
+		# 12: Shedinja special case; splits from Nincada on evolution to Ninjask)
 		family = []
 		for evolution in matched_evolutions:
 			family.append(evolution[1].strip())
