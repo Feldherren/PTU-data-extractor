@@ -74,7 +74,7 @@ level_move_match = re.compile(r'((\d+)\s*([\w\s]+)\-\s(Normal|Fighting|Flying|Po
 tm_hm_move_block_match = re.compile(r'TM/HM Move List(.+?)(?:Tutor Move List|Egg Move List|Mega Evolution)', flags=re.M|re.I|re.DOTALL)
 tm_hm_move_match = re.compile(r'((A?\d+)\s*([\w╦Ø]+(?:\s?\-?[\w╦Ø£]*)*))', flags=re.M|re.I)
 egg_move_block_match = re.compile(r'Egg Move List(.+?)(?:Tutor Move List|Mega Evolution|$)', flags=re.I|re.DOTALL)
-tutor_move_block_match = re.compile(r'Tutor Move List(.+?)(?:Mega Evolution|$)', flags=re.I|re.DOTALL)
+tutor_move_block_match = re.compile(r'Tutor Move List(.+?)(?:Mega Evolution|$|\*)', flags=re.I|re.DOTALL)
 tutor_move_match = re.compile(r'([\w╦Ø]+(?:\s?\-?[\w╦Ø£]*)*\(?N?\)?),?', flags=re.M|re.I)
 egg_move_match = re.compile(r'([\w╦Ø]+(?:\s?\-?[\w╦Ø£]*)*),?', flags=re.M|re.I)
 evolutions_match = re.compile(r'\s*(\d+)\s\-\s(\w+\s?[FM]?)\b\s?(Fire Stone|Water Stone|Thunderstone|Leaf Stone|Shiny Stone|Dawn Stone|Dusk Stone|Moon Stone)?\s?(?:holding ([\w\W]+?))?\s?(Male|Female)?\s?(?:Minimum (\d+))?(?:learn (\w+\s?\w*))?\s?(in \w+\s?\w*)?$', flags=re.M|re.I)
