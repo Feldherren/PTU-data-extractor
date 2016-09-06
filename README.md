@@ -17,7 +17,7 @@ Flu╦øy should be Fluffy (Ability: Fluffy Charge)
 
 Justi╦Üed should be Justified (Ability: Justified)
 
-Gi╦Ø should be Gift (Ability: Flower Gift)
+Gi╦Ø should be Gift (Ability: Flower Gift, Natural Gift)
 
 E╦øect should be Effect (Ability: Effect Spore)
 
@@ -29,9 +29,11 @@ O╦ø should be Out (Move: Knock Out)
 
 ╦£under should be Thunder. (Moves: Thunderbolt, Thunder, Thunder Wave)
 
-╦£ief should be Thief.
+╦£ief should be Thief. (Move: Thief)
 
 ╦£rash should be Thrash (Move: Thrash)
+
+A╦Øer should be After (Move: A╦Øer You)
 
 Con╦Øned should be Confined; as this shows up in Hoopa's name, this means Hoopa is not correctly identified as a legendary pokemon.
 
@@ -50,3 +52,9 @@ Earlier Pokemon with no gender have 'No Gender' in Gender Ratio. More-recent leg
 Meloetta Aria/Step 'Form', rather than Forme.
 
 Meloetta Step Forme has the Advanced Ability 'Spining Dance'; should be 'Spinning Dance'.
+
+Rhydon has the evolution to Rhyperior requiring a minimum level 50. Rhyhorn and Rhyperior show the minimum as 45.
+
+Machop has the evolution to Machamp requiring a minimum level 35. Rhyhorn and Rhyperior show the minimum as 40.
+
+Gurdurr is missing a linebreak in evolution section, and seems to claim that it needs a minimum level 250 to evolve to Conkeldurr
