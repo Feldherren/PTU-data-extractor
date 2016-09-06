@@ -30,54 +30,55 @@ endPage = int(config['pokedex']['end_page'])
 output = configparser.ConfigParser()
 
 # setting up regexes
-name_match = re.compile('^\d+([\w ╦ø£\-\(\)]+)$', flags=re.M|re.I)
-hp_match = re.compile('HP:\s*(\d+)', flags=re.M|re.I)
-attack_match = re.compile('Attack:\s*(\d+)', flags=re.M|re.I)
-defense_match = re.compile('Defense:\s*(\d+)', flags=re.M|re.I)
-special_attack_match = re.compile('Special Attack:\s*(\d+)', flags=re.M|re.I)
-special_defense_match = re.compile('Special Defense:\s*(\d+)', flags=re.M|re.I)
-speed_match = re.compile('Speed:\s*(\d+)', flags=re.M|re.I)
+name_match = re.compile(r'^\d+([\w ╦ø£\-\(\)]+)$', flags=re.M|re.I)
+hp_match = re.compile(r'HP:\s*(\d+)', flags=re.M|re.I)
+attack_match = re.compile(r'Attack:\s*(\d+)', flags=re.M|re.I)
+defense_match = re.compile(r'Defense:\s*(\d+)', flags=re.M|re.I)
+special_attack_match = re.compile(r'Special Attack:\s*(\d+)', flags=re.M|re.I)
+special_defense_match = re.compile(r'Special Defense:\s*(\d+)', flags=re.M|re.I)
+speed_match = re.compile(r'Speed:\s*(\d+)', flags=re.M|re.I)
 # first match the whole line, then match for types on that
-type_line_match = re.compile('(Type\s*:\s*\w+\s*/*\s*\w*)\s*$', flags=re.M|re.I)
-type_match = re.compile('(Normal|Fighting|Flying|Poison|Ground|Rock|Bug|Ghost|Steel|Fire|Water|Grass|Electric|Psychic|Ice|Dragon|Dark|Fairy)', flags=re.M|re.I)
+type_line_match = re.compile(r'(Type\s*:\s*\w+\s*/*\s*\w*)\s*$', flags=re.M|re.I)
+type_match = re.compile(r'(Normal|Fighting|Flying|Poison|Ground|Rock|Bug|Ghost|Steel|Fire|Water|Grass|Electric|Psychic|Ice|Dragon|Dark|Fairy)', flags=re.M|re.I)
 # separate abilities are listed on separate lines
-basic_abilities_match = re.compile('(Basic Ability[\s\d]*:\s([\w\s\(\)\*╦Ø]+$))', flags=re.M|re.I)
-advanced_abilities_match = re.compile('(Adv Ability[\s\d]*:\s([\w\s\(\)\*╦Ø]+$))', flags=re.M|re.I)
-high_ability_match = re.compile('(High Ability:\s([\w\s\(\)\*╦Ø]+$))', flags=re.M|re.I)
-height_match = re.compile('Height\s*:\s*(.+)\(([\w]+)\)', flags=re.M|re.I)
-weight_match = re.compile('Weight\s*:\s*(.+)\(([\w]+)\)', flags=re.M|re.I)
-gender_ratio_match = re.compile('Gender Ratio\s*:\s*([\d\.]+%\s*M|No Gender|Genderless)', flags=re.M|re.I)
+basic_abilities_match = re.compile(r'(Basic Ability[\s\d]*:\s([\w\s\(\)\*╦Ø]+$))', flags=re.M|re.I)
+advanced_abilities_match = re.compile(r'(Adv Ability[\s\d]*:\s([\w\s\(\)\*╦Ø]+$))', flags=re.M|re.I)
+high_ability_match = re.compile(r'(High Ability:\s([\w\s\(\)\*╦Ø]+$))', flags=re.M|re.I)
+height_match = re.compile(r'Height\s*:\s*(.+)\(([\w]+)\)', flags=re.M|re.I)
+weight_match = re.compile(r'Weight\s*:\s*(.+)\(([\w]+)\)', flags=re.M|re.I)
+gender_ratio_match = re.compile(r'Gender Ratio\s*:\s*([\d\.]+%\s*M|No Gender|Genderless)', flags=re.M|re.I)
 # first match the whole line, then match for types on that
 # notes: Pancham and a few others have Human-Like instead of Humanshape
 # Pancham also uses a comma instead of /
-egg_groups_line_match = re.compile('Egg\s*Group\s*:\s*(.*)', flags=re.M|re.I)
-egg_groups_match = re.compile('(Field|Bug|Dragon|Fairy|Flying|Ground|Humanshape|Human\-Like|Indeterminate|Mineral|Monster|Plant|Water 1|Water 2|Water 3|Ditto|None)', flags=re.M|re.I)
+egg_groups_line_match = re.compile(r'Egg\s*Group\s*:\s*(.*)', flags=re.M|re.I)
+egg_groups_match = re.compile(r'(Field|Bug|Dragon|Fairy|Flying|Ground|Humanshape|Human\-Like|Indeterminate|Mineral|Monster|Plant|Water 1|Water 2|Water 3|Ditto|None)', flags=re.M|re.I)
 # first match the whole line, then match for diets on that
 # known values: (Ominvore|Omnivore|Nullivore|Carnivore|Herbivore|Phototroph|Terravore|Filter Feeder|Ergovore)
-diets_line_match = re.compile('Diet\s*:\s*(.*)', flags=re.M|re.I)
-diets_match = re.compile('(Ominvore|Omnivore|Nullivore|Carnivore|Herbivore|Phototroph|Terravore|Filter Feeder|Ergovore)', flags=re.M|re.I)
+diets_line_match = re.compile(r'Diet\s*:\s*(.*)', flags=re.M|re.I)
+diets_match = re.compile(r'(Ominvore|Omnivore|Nullivore|Carnivore|Herbivore|Phototroph|Terravore|Filter Feeder|Ergovore)', flags=re.M|re.I)
 # first match the whole line, then match for habitats on that
-habitats_line_match = re.compile('Habitat\s*:\s*(.*)', flags=re.M|re.I)
-habitats_match = re.compile('(Forest|Grassland|Rainforest|Marsh|Cave|Mountain|Urban|Beach|Freshwater|Ocean|Taiga|Tundra|Arctic|Desert|\?+)', flags=re.M|re.I)
-average_hatch_rate_match = re.compile('Average Hatch Rate:\s*(\d+) Days')
+habitats_line_match = re.compile(r'Habitat\s*:\s*(.*)', flags=re.M|re.I)
+habitats_match = re.compile(r'(Forest|Grassland|Rainforest|Marsh|Cave|Mountain|Urban|Beach|Freshwater|Ocean|Taiga|Tundra|Arctic|Desert|\?+)', flags=re.M|re.I)
+average_hatch_rate_match = re.compile(r'Average Hatch Rate:\s*(\d+) Days')
 #skill_list_line_match = re.compile('Skill List\s*(.*)', flags=re.M|re.I)
 #skill_list_match = re.compile('Athl (\dd\d\+*\d*), Acro (\dd\d\+*\d*), Combat (\dd\d\+*\d*), Stealth (\dd\d\+*\d*), Percep (\dd\d\+*\d*), Focus (\dd\d\+*\d*)', flags=re.M|re.I)
-athl_match = re.compile('Athl\s*(\dd6\+*\d*)', flags=re.M|re.I|re.DOTALL)
-acro_match = re.compile('Acro\s*(\dd6\+*\d*)', flags=re.M|re.I|re.DOTALL)
-combat_match = re.compile('Combat\s*(\dd6\+*\d*)', flags=re.M|re.I|re.DOTALL)
-stealth_match = re.compile('Stealth\s*(\dd6\+*\d*)', flags=re.M|re.I|re.DOTALL)
-percep_match = re.compile('Percep\s*(\dd6\+*\d*)', flags=re.M|re.I|re.DOTALL)
-focus_match = re.compile('Focus\s*(\dd6\+*\d*)', flags=re.M|re.I|re.DOTALL)
+athl_match = re.compile(r'Athl\s*(\dd6\+*\d*)', flags=re.M|re.I|re.DOTALL)
+acro_match = re.compile(r'Acro\s*(\dd6\+*\d*)', flags=re.M|re.I|re.DOTALL)
+combat_match = re.compile(r'Combat\s*(\dd6\+*\d*)', flags=re.M|re.I|re.DOTALL)
+stealth_match = re.compile(r'Stealth\s*(\dd6\+*\d*)', flags=re.M|re.I|re.DOTALL)
+percep_match = re.compile(r'Percep\s*(\dd6\+*\d*)', flags=re.M|re.I|re.DOTALL)
+focus_match = re.compile(r'Focus\s*(\dd6\+*\d*)', flags=re.M|re.I|re.DOTALL)
 # again, first get all of the level up moves block, then run another match to extract each move
-level_move_block_match = re.compile('Level Up Move List(.+?)(?:TM/HM Move List|Tutor Move List)', flags=re.M|re.I|re.DOTALL)
-level_move_match = re.compile('((\d+)\s*([\w\s]+)\-\s(Normal|Fighting|Flying|Poison|Ground|Rock|Bug|Ghost|Steel|Fire|Water|Grass|Electric|Psychic|Ice|Dragon|Dark|Fairy))', flags=re.M|re.I)
-tm_hm_move_block_match = re.compile('TM/HM Move List(.+?)(?:Tutor Move List|Egg Move List|Mega Evolution)', flags=re.M|re.I|re.DOTALL)
-tm_hm_move_match = re.compile('((A?\d+)\s*([\w╦Ø]+(?:\s?\-?[\w╦Ø£]*)*))', flags=re.M|re.I)
-egg_move_block_match = re.compile('Egg Move List(.+?)(?:Tutor Move List|Mega Evolution|$)', flags=re.I|re.DOTALL)
-tutor_move_block_match = re.compile('Tutor Move List(.+?)(?:Mega Evolution|$)', flags=re.I|re.DOTALL)
-tutor_move_match = re.compile('([\w╦Ø]+(?:\s?\-?[\w╦Ø£]*)*\(?N?\)?),?', flags=re.M|re.I)
-egg_move_match = re.compile('([\w╦Ø]+(?:\s?\-?[\w╦Ø£]*)*),?', flags=re.M|re.I)
-evolutions_match = re.compile('(\d+)\s\-\s(\w+\s?[FM]?\b)\s?(Fire Stone|Water Stone|Thunderstone|Leaf Stone|Shiny Stone|Dawn Stone|Dusk Stone|Moon Stone)?\s?(?:holding ([\w\W]+?))?\s?(Male|Female)?\s?(?:Minimum (\d+))?(?:learn (\w+\s?\w*))?$', flags=re.M|re.I)
+level_move_block_match = re.compile(r'Level Up Move List(.+?)(?:TM/HM Move List|Tutor Move List)', flags=re.M|re.I|re.DOTALL)
+level_move_match = re.compile(r'((\d+)\s*([\w\s]+)\-\s(Normal|Fighting|Flying|Poison|Ground|Rock|Bug|Ghost|Steel|Fire|Water|Grass|Electric|Psychic|Ice|Dragon|Dark|Fairy))', flags=re.M|re.I)
+tm_hm_move_block_match = re.compile(r'TM/HM Move List(.+?)(?:Tutor Move List|Egg Move List|Mega Evolution)', flags=re.M|re.I|re.DOTALL)
+tm_hm_move_match = re.compile(r'((A?\d+)\s*([\w╦Ø]+(?:\s?\-?[\w╦Ø£]*)*))', flags=re.M|re.I)
+egg_move_block_match = re.compile(r'Egg Move List(.+?)(?:Tutor Move List|Mega Evolution|$)', flags=re.I|re.DOTALL)
+tutor_move_block_match = re.compile(r'Tutor Move List(.+?)(?:Mega Evolution|$)', flags=re.I|re.DOTALL)
+tutor_move_match = re.compile(r'([\w╦Ø]+(?:\s?\-?[\w╦Ø£]*)*\(?N?\)?),?', flags=re.M|re.I)
+egg_move_match = re.compile(r'([\w╦Ø]+(?:\s?\-?[\w╦Ø£]*)*),?', flags=re.M|re.I)
+evolutions_match = re.compile(r'\s*(\d+)\s\-\s(\w+\s?[FM]?)\b\s?(Fire Stone|Water Stone|Thunderstone|Leaf Stone|Shiny Stone|Dawn Stone|Dusk Stone|Moon Stone)?\s?(?:holding ([\w\W]+?))?\s?(Male|Female)?\s?(?:Minimum (\d+))?(?:learn (\w+\s?\w*))?\s?(in \w+\s?\w*)?$', flags=re.M|re.I)
+#evolutions_match = re.compile(r'\s*(\d+)\s\-\s(\w+\s?[FM]?)\b\s?(Fire Stone|Water Stone|Thunderstone|Leaf Stone|Shiny Stone|Dawn Stone|Dusk Stone|Moon Stone)?', flags=re.M|re.I)
 
 # Pseudo-legendaries, fossils and legendaries; used later to identify pokemon that are in each group
 pseudolegendary_pokemon = ['Dratini', 'Dragonair', 'Dragonite', 'Larvitar', 'Pupitar', 'Tyranitar', 'Bagon', 'Shelgon', 'Salamence', 'Beldum', 'Metang', 'Metagross', 'Gible', 'Gabite', 'Garchomp', 'Deino', 'Zweilous', 'Hydreigon', 'Goomy', 'Sliggoo', 'Goodra']
@@ -211,6 +212,18 @@ for pageNo in range(startPage, endPage):
 			if debug:
 				print(matched_tutor_move_block)
 				print(matched_tutor_moves)
+		# Evolutions and Family
+		matched_evolutions = evolutions_match.findall(pageText)
+		if debug:
+			for evolution in matched_evolutions:
+				print(evolution)
+		# 0: evolutionary tier/stage (eg. 1 for base form, 2 for forms evolving from that, 3 for forms evolving from stage 2 forms)
+		# 1: Name of stage
+		# 2: Evolution stone, if required
+		# 3: Hold item, if required
+		# 4: Gender, if required
+		# 5: Minimum level for evolution, if required
+		# 6: Learned move, if required
 		
 		# add to output config
 		output[name] = {}
@@ -285,6 +298,10 @@ for pageNo in range(startPage, endPage):
 				tutor_moves.append(move.strip().replace('\n', '').replace('\t', ''))
 			if len(tutor_moves) > 0:
 				output[name]['tutor_moves'] = ', '.join(tutor_moves)
+		family = []
+		for evolution in matched_evolutions:
+			family.append(evolution[1].strip())
+		output[name]['family'] = ', '.join(family)
 	else:
 		if debug:
 			print(str(pageNo), 'skipped!')
